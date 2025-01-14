@@ -60,10 +60,10 @@ class TFMini {
   static constexpr uint8_t TFMINI_CHECKSUM_POS_ = 8;
 
   /* Driver state parameters*/
-  static uint8_t TFMini_FRAME_SIZE = 7;
+  const static uint8_t TFMini_FRAME_SIZE_ = 7;
   uint8_t c_;
   uint8_t state_ = 0;
-  uint8_t buf_[TFMini_FRAME_SIZE];
+  uint8_t buf_[TFMini_FRAME_SIZE_];
   uint8_t checksum_ = 0;
   uint8_t checksumByte = 0;
 };
