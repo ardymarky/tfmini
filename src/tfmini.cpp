@@ -47,47 +47,47 @@ bool TFMini::Read(){
     while (bus_->available()) {
         c_ = bus_->read();
         if (state_ == HEADER1_POS_) {
-        if (c_ == TFMini_HEADER1_) {
-            state_++;
-        }
-        else {
-            state_ = 0;
-        }
+            if (c_ == TFMini_HEADER1_) {
+                state_++;
+            }
+            else {
+                state_ = 0;
+            }
         }
 
         else if (state_ == HEADER2_POS_) {
-        if (c_ == TFMini_HEADER2_) {
-            state_++; 
-            checksum = 0x59 + 0x59;
-        }
-        else {
-            state_ = 0;
-        }
+            if (c_ == TFMini_HEADER2_) {
+                state_++; 
+                checksum_ = 0x59 + 0x59;
+            }
+            else {
+                state_ = 0;
+            }
         }
 
         // Lidar payload frame
         else if (state_ > HEADER2_POS_ && state_ < TFMINI_CHECKSUM_POS_){
             buf_[state_ - HEADER2_POS_ - 1] = c_;
 
-            if (state < TFMini_FRAME_SIZE - 2){checksum += c_;}
+            if (state_ < TFMini_FRAME_SIZE_ - 2){checksum_ += c_;}
             state_++;
         }
         // Lidar checksum
         else if (state_ == TFMINI_CHECKSUM_POS_){
             checksumByte = c_;
 
-            if (checksum != checksumByte) {
-                state = 100;
-                distance = -1;
-                strength = -1;
+            if (checksum_ != checksumByte) {
+                state_ = 100;
+                dist_.i2 = -1;
+                strength_.i2 = -1;
                 Serial.println("ERROR: bad checksum");
                 return -1;
             }
 
-            dist_[0] = frame[0];
-            dist_[1] = frame[1];
-            strength_[0] = frame[2];
-            strength_[1] = frame[3];
+            dist_.bytes[0] = buf_[0];
+            dist_.bytes[1] = buf_[1];
+            strength_.bytes[0] = buf_[2];
+            strength_.bytes[1] = buf_[3];
 
             state_ = 0;
             
