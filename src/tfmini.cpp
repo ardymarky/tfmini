@@ -76,13 +76,13 @@ bool TFMini::Read(){
         else if (state_ == TFMINI_CHECKSUM_POS_){
             checksumByte = c_;
 
-            if (checksum_ != checksumByte) {
-                state_ = 100;
-                dist_.i2 = -1;
-                strength_.i2 = -1;
-                Serial.println("ERROR: bad checksum");
-                return -1;
-            }
+            // if (checksum_ != checksumByte) {
+                // state_ = 100;
+                // dist_.i2 = -1;
+                // strength_.i2 = -1;
+                // Serial.println("ERROR: bad checksum");
+                // return -1;
+            // }
 
             dist_.bytes[0] = buf_[0];
             dist_.bytes[1] = buf_[1];
